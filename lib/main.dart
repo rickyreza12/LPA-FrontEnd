@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Pencet'),
     );
   }
 }
@@ -50,6 +50,15 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
+  @override
+  void initState() {
+    username.text = ""; //innitail value of text field
+    password.text = "";
+    super.initState();
+  }
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -59,6 +68,56 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+  }
+  void _kurang() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      _counter--;
+    });
+  }
+  void _reset() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      _counter=0;
+    });
+  }
+
+  OutlineInputBorder myinputborder(){ //return type is OutlineInputBorder
+    return OutlineInputBorder( //Outline border type for TextFeild
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderSide: BorderSide(
+          color:Colors.redAccent,
+          width: 3,
+        )
+    );
+  }
+
+  OutlineInputBorder myfocusborder(){
+    return OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderSide: BorderSide(
+          color:Colors.greenAccent,
+          width: 3,
+        )
+    );
+  }
+
+  OutlineInputBorder klik(){
+    return OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderSide: BorderSide(
+          color:Colors.greenAccent,
+          width: 3,
+        )
+    );
   }
 
   @override
@@ -95,21 +154,81 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            //const Text(
+            //  'You have pushed the button this many times:',
+            //),
+            //Text(
+            //  '$_counter',
+            //  style: Theme.of(context).textTheme.headline4,
+            //),
+            TextField(
+                controller: username,
+                decoration: InputDecoration(
+                  labelText: "Username",
+                  prefixIcon: Icon(Icons.people),
+                  border: myinputborder(),
+                  //enabledBorder: myinputborder(),
+                  focusedBorder: myfocusborder(),
+                )
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+
+            Container(height:20),
+
+            TextField(
+                controller: password,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.lock),
+                  labelText: "Password",
+                  border: myinputborder(),
+                  //enabledBorder: myinputborder(),
+                  focusedBorder: myfocusborder(),
+                )
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+
+
+      floatingActionButton: Wrap( //will break to another line on overflow
+        direction: Axis.horizontal, //use vertical to show  on vertical axis
+        children: <Widget>[
+          Container(
+              margin:EdgeInsets.all(10),
+              child: FloatingActionButton(
+                onPressed: (){
+                  _kurang();
+                  //action code for button 1
+                },
+                tooltip: 'kurang',
+                child: Icon(Icons.add),
+              )
+          ), //button first
+
+          Container(
+              margin:EdgeInsets.all(10),
+              child: FloatingActionButton(
+                onPressed: _incrementCounter,
+                tooltip: 'tambah',
+                backgroundColor: Colors.deepPurpleAccent,
+                child: Icon(Icons.add),
+              )
+          ), // button second
+
+          Container(
+              margin:EdgeInsets.all(10),
+              child: FloatingActionButton(
+                onPressed: (){
+                  _reset();
+                },
+                tooltip: 'reset',
+                backgroundColor: Colors.deepOrangeAccent,
+                child: Icon(Icons.add),
+              )
+          ), // button third
+
+          // Add more buttons here
+        ],
+      ),// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
